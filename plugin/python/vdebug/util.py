@@ -106,7 +106,7 @@ class FilePath:
         Uses the "local_path" and "remote_path" options.
         """
         ret = f
-        if ret[2] == "/":
+        if ret[1] == ":":
             ret = ret.replace("/","\\")
 
         if vdebug.opts.Options.isset('path_maps'):
@@ -135,7 +135,7 @@ class FilePath:
                     ret = ret.replace(local,remote)
                     break
 
-        if ret[2] == "\\":
+        if ret[1] == ":":
             ret = ret.replace("\\","/")
 
         if self.is_win:
