@@ -88,7 +88,7 @@ class Runner:
                 self.ui.error(error_str)
 
     def refresh(self,status):
-        """The main action performed after a deubugger step.
+        """The main action performed after a debugger step.
     
         Updates the status window, current stack, source
         file and line and watch window."""    
