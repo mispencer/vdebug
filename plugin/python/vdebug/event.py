@@ -128,7 +128,7 @@ class CursorEvalEvent(Event):
             return False
 
 class StackWindowLineSelectEvent(Event):
-    """Move the the currently selected file and line in the stack window
+    """Move the currently selected file and line in the stack window
     """
     def execute(self,runner):
         lineno = vim.current.window.cursor[0]
