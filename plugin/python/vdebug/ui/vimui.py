@@ -464,6 +464,7 @@ class WatchWindow(Window):
 
 class StatusWindow(Window):
     name = "DebuggerStatus"
+    status = None
 
     def on_create(self):
         keys = vdebug.util.Keymapper()
@@ -481,6 +482,10 @@ class StatusWindow(Window):
 
     def set_status(self,status):
         self.insert("Status: "+str(status),0,True)
+        self.status = status
+
+    def get_status(self):
+        return self.status
 
 
 class ResponseRenderer:

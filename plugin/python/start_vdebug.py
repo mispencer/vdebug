@@ -64,6 +64,22 @@ class DebuggerInterface:
         except Exception as e:
             self.handle_exception(e)
 
+    def status(self):
+        """Status of the debugger.
+        """
+        try:
+            self.runner.status()
+        except Exception as e:
+            self.handle_exception(e)
+
+    def handle_cursorhold(self):
+        """ Periodic check for status.
+        """
+        try:
+            self.runner.async_status_check()
+        except Exception as e:
+            self.handle_exception(e)
+
     def handle_opt(self,option,value = None):
         """Set an option, overwriting the existing value.
         """

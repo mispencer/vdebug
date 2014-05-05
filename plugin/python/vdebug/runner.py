@@ -64,11 +64,13 @@ class Runner:
             vdebug.log.Log("Available context names: %s" %\
                     str(self.context_names),vdebug.log.Logger.DEBUG)
 
+            self.ui.statuswin.set_status("running")
             if vdebug.opts.Options.get('break_on_open',int) == 1:
                 status = self.api.step_into()
             else:
                 status = self.api.run()
-            self.refresh(status)
+            if status != None:
+                self.refresh(status)
         except Exception:
             self.close()
             raise
@@ -151,6 +153,23 @@ class Runner:
                 return True
         return False
 
+    def status(self):
+        """Tell the debugger to get the current status. """
+        if not self.is_alive():
+            self.ui.error("Cannot get status: no connection")
+        else:
+            vdebug.log.Log("Status")
+            res = self.api.status()
+            if res != None:
+                self.refresh(res)
+
+    def async_status_check(self):
+        """Tell the debugger to get the current status. """
+        if self.is_alive() and self.ui.statuswin.get_status() == "running":
+            res = self.api.async_status_check()
+            if res != None:
+                self.refresh(res)
+
     def run(self):
         """Tell the debugger to run.
 
@@ -162,7 +181,8 @@ class Runner:
             vdebug.log.Log("Running")
             self.ui.statuswin.set_status("running")
             res = self.api.run()
-            self.refresh(res)
+            if res != None:
+                self.refresh(res)
 
     def step_over(self):
         """Step over to the next statement."""
@@ -172,7 +192,8 @@ class Runner:
             vdebug.log.Log("Stepping over")
             self.ui.statuswin.set_status("running")
             res = self.api.step_over()
-            self.refresh(res)
+            if res != None:
+                self.refresh(res)
 
     def step_into(self):
         """Step into the next statement."""
@@ -182,7 +203,8 @@ class Runner:
             vdebug.log.Log("Stepping into statement")
             self.ui.statuswin.set_status("running")
             res = self.api.step_into()
-            self.refresh(res)
+            if res != None:
+                self.refresh(res)
 
     def step_out(self):
         """Step out of the current context."""
@@ -192,7 +214,8 @@ class Runner:
             vdebug.log.Log("Stepping out of statement")
             self.ui.statuswin.set_status("running")
             res = self.api.step_out()
-            self.refresh(res)
+            if res != None:
+                self.refresh(res)
 
     def remove_breakpoint(self,args):
         """Remove a breakpoint, by ID or "*"."""

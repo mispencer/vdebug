@@ -205,6 +205,11 @@ function! Vdebug_edit(filename)
     endtry
 endfunction
 
+augroup Vdebug
+	au!
+	au CursorHold,CursorHoldI,FocusGained * python debugger.handle_cursorhold()
+augroup END
+
 silent doautocmd User VdebugPost
 call Vdebug_load_options(g:vdebug_options)
 call Vdebug_load_keymaps(g:vdebug_keymap)
