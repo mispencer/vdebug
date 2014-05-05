@@ -75,7 +75,7 @@ class Ui(vdebug.ui.interface.Ui):
             raise e
 
     def set_source_position(self,file,lineno):
-        if file == 'dbgp:null':
+        if str(file).startswith('dbgp:'):
             return
         self.sourcewin.set_file(file)
         self.sourcewin.set_line(lineno)
@@ -247,7 +247,7 @@ class SourceWindow(vdebug.ui.interface.Window):
         vim.command('sign unplace *')
 
     def place_pointer(self,line):
-        if str(self.file) == "dbgp:null":
+        if str(self.file).startswith('dbgp:'):
             return
         vdebug.log.Log("Placing pointer sign on line "+str(line),\
                 vdebug.log.Logger.INFO)
