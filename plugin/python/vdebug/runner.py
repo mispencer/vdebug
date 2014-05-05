@@ -123,11 +123,11 @@ class Runner:
 
                 self.get_context(0)
 
-    def get_context(self,context_id = 0):
+    def get_context(self,context_id = 0, depth = 0):
         self.ui.watchwin.clean()
         name = self.context_names[context_id]
         vdebug.log.Log("Getting %s variables" % name)
-        context_res = self.api.context_get(context_id)
+        context_res = self.api.context_get(context_id, depth)
         rend = vdebug.ui.vimui.ContextGetResponseRenderer(\
                 context_res,"%s at %s:%s" \
                 %(name,self.ui.sourcewin.file,self.cur_lineno),\

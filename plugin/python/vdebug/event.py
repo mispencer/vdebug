@@ -146,6 +146,11 @@ class StackWindowLineSelectEvent(Event):
         runner.ui.sourcewin.set_file(file)
         runner.ui.sourcewin.set_line(lineno)
 
+        depth_endpos = line.find("]")
+        depth = line[1:depth_endpos]
+        runner.get_context(0, depth)
+        runner.ui.stackwin.depth = depth
+
 class WatchWindowPropertyGetEvent(Event):
     """Open a tree node in the watch window.
 
@@ -162,7 +167,7 @@ class WatchWindowPropertyGetEvent(Event):
             raise EventError("Cannot read the selected property")
 
         name = line[pointer_index+step:eq_index-1]
-        context_res = runner.api.property_get(name)
+        context_res = runner.api.property_get(name, runner.ui.stackwin.depth)
         rend = vdebug.ui.vimui.ContextGetResponseRenderer(context_res)
         output = rend.render(pointer_index - 1)
         if vdebug.opts.Options.get('watch_window_style') == 'expanded':

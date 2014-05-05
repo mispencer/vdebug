@@ -422,6 +422,7 @@ class LogWindow(Window):
 
 class StackWindow(Window):
     name = "DebuggerStack"
+    depth = 0
 
     def on_create(self):
         self.command('inoremap <buffer> <cr> <esc>'+\
@@ -437,6 +438,11 @@ class StackWindow(Window):
 
     def write(self, msg, return_focus = True):
         Window.write(self, msg, after="normal gg")
+
+    def clean(self):
+        """ clean all datas in buffer """
+        Window.clean(self)
+        self.depth = 0
 
 class WatchWindow(Window):
     name = "DebuggerWatch"
