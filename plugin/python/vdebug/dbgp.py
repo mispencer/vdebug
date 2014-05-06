@@ -549,6 +549,7 @@ class ContextProperty:
         self._determine_displayname(node)
         self.encoding = node.get('encoding')
         self.depth = depth
+        self.numchildren = int(node.get('numchildren'))
 
         self.size = node.get('size')
         self.value = ""
