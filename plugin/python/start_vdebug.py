@@ -64,6 +64,14 @@ class DebuggerInterface:
         except Exception as e:
             self.handle_exception(e)
 
+    def break_async(self):
+        """Break the program, where ever it is.
+        """
+        try:
+            self.runner.break_async()
+        except Exception as e:
+            self.handle_exception(e)
+
     def status(self):
         """Status of the debugger.
         """

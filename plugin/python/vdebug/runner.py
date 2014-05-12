@@ -217,6 +217,17 @@ class Runner:
             if res != None:
                 self.refresh(res)
 
+    def break_async(self):
+        """Break now if running"""
+        if not self.is_alive():
+            self.open()
+        else:
+            vdebug.log.Log("Breaking")
+            self.ui.statuswin.set_status("running")
+            res = self.api.break_async()
+            if res != None:
+                self.refresh(res)
+
     def remove_breakpoint(self,args):
         """Remove a breakpoint, by ID or "*"."""
         if args is None:
