@@ -112,6 +112,11 @@ class StackWindowLineSelectEvent(Event):
         self.ui.sourcewin.set_file(file)
         self.ui.sourcewin.set_line(lineno)
 
+        depth_endpos = line.find("]")
+        depth = line[1:depth_endpos]
+        self.ui.windows.stack().depth = depth
+        self.dispatch("get_context", 0)
+
 class WatchWindowPropertyGetEvent(Event):
     """Open a tree node in the watch window.
 
@@ -128,7 +133,7 @@ class WatchWindowPropertyGetEvent(Event):
             raise EventError("Cannot read the selected property")
 
         name = line[pointer_index+step:eq_index-1]
-        context_res = self.api.property_get(name)
+        context_res = self.api.property_get(name, self.ui.windows.stack().depth)
         rend = vdebug.ui.vimui.ContextGetResponseRenderer(context_res)
         output = rend.render(pointer_index - 1)
         self.ui.windows.watch().delete(lineno,lineno+1)
@@ -378,7 +383,7 @@ class GetContextEvent(Event):
         self.ui.windows.watch().clean()
         name = self.session.context_names[context_id]
         vdebug.log.Log("Getting %s variables" % name)
-        context_res = self.api.context_get(context_id)
+        context_res = self.api.context_get(context_id, self.ui.windows.stack().depth)
         rend = vdebug.ui.vimui.ContextGetResponseRenderer(\
                 context_res,\
                 "%s at %s:%s" %(name, self.ui.sourcewin.file,self.session.cur_lineno),\
