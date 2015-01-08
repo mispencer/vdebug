@@ -75,7 +75,7 @@ class SessionHandler:
         else:
             self.listen()
 
-    def stop(self):
+    def stop(self, quiet = False):
         self.dispatch_event("stop_waiting")
         if self.is_connected():
             self.__session.close_connection()
@@ -84,7 +84,7 @@ class SessionHandler:
             self.__ui.close()
         elif self.is_listening():
             self.listener.stop()
-        else:
+        elif not quiet:
             self.__ui.say("Vdebug is not running")
 
     def close(self):

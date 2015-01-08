@@ -18,7 +18,7 @@ class DebuggerInterface:
         self.event_dispatcher = vdebug.event.Dispatcher(self.session_handler)
 
     def __del__(self):
-        self.session_handler.stop()
+        self.session_handler.stop(True)
         self.session_handler = None
 
     def reload_options(self):
